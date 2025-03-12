@@ -1,0 +1,102 @@
+# Computer Vision with Python, OpenCV, and Deep Learning
+
+## What is an Image?
+An image is a representation of visual information. It consists of pixels, which are the smallest units of an image. Each pixel holds color and intensity information.
+
+## How Computers Handle Images
+Computers process images as numerical data. Every image is stored as an array of numbers, where each pixel's intensity is represented by a numerical value.
+
+## Handling Image Data
+When dealing with images, a computer stores them as a grid of pixels, with each pixel containing intensity values. These values differ based on whether the image is grayscale or colored.
+
+### Sorting Mail by ZIP Code
+If we were to build software that sorts mail based on ZIP codes, we would need to:
+1. Process images of the mail.
+2. Detect and extract the ZIP code (often handwritten).
+3. Recognize the digits using image processing and deep learning.
+4. Convert extracted information into text.
+
+### Grayscale Images
+In grayscale images:
+- Each pixel is represented by a single intensity value between **0 and 255**.
+  - **0** represents black (darkest).
+  - **255** represents white (brightest).
+- The range **0-255** is used because computers store images as **8-bit numbers** (2⁸ = 256 possible values).
+- To normalize images, we divide by **255**, bringing pixel values into the range **0 to 1**. This normalization is important for machine learning models as it helps with numerical stability and improves performance.
+
+#### Example (Grayscale Image as Array):
+```python
+import cv2
+import numpy as np
+
+# Load a grayscale image
+image = cv2.imread('mail.jpg', cv2.IMREAD_GRAYSCALE)
+print(image.shape)  # Output: (Height, Width)
+```
+
+## Colored Images
+Colored images are represented using **RGB (Red, Green, Blue)** channels. Each channel contains intensity values between 0 and 255.
+
+### Why RGB?
+- **Additive Color Mixing**: By combining different intensities of R, G, and B, we can create a vast range of colors.
+- Example:
+  - (255, 0, 0) → Red
+  - (0, 255, 0) → Green
+  - (0, 0, 255) → Blue
+  - (255, 255, 255) → White
+  - (0, 0, 0) → Black
+
+### Alternative Color Mapping
+- Instead of RGB, we can use other formats like:
+  - **HSV (Hue, Saturation, Value)**
+  - **CMYK (Cyan, Magenta, Yellow, Black)**
+  - **Grayscale (single channel)**
+
+### Shape of a Color Image
+- A **grayscale image** has a shape of `(height, width)`.
+- A **colored image** has a shape of `(height, width, 3)`, where:
+  - `Height` is the number of rows.
+  - `Width` is the number of columns.
+  - `3` represents the RGB channels.
+
+#### Example (Color Image as Array):
+```python
+# Load a color image
+image = cv2.imread('mail.jpg')
+print(image.shape)  # Output: (1280, 720, 3)
+```
+
+## Understanding Image Channels
+- Each channel is essentially a **grayscale image** representing intensity values of a particular color.
+- The computer doesn’t inherently know which channel is **Red, Green, or Blue**; we must define it explicitly.
+
+### Extracting Channels
+```python
+# Split channels
+b, g, r = cv2.split(image)
+
+# Show Red Channel
+cv2.imshow('Red Channel', r)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+
+## Why Normalize Images?
+### Need for Normalization
+- Pixel values range from **0 to 255**.
+- Machine learning models work best with values between **0 and 1**.
+- Normalization stabilizes the training process and speeds up convergence.
+
+#### Example (Normalization):
+```python
+normalized_image = image / 255.0  # Converts pixel values to range [0,1]
+```
+
+## Conclusion
+- Images are stored as numerical arrays.
+- Grayscale images use a **single intensity value per pixel**.
+- Colored images use **three channels (RGB)**.
+- Computers don’t inherently understand colors; they process intensity values.
+- Normalization improves model performance.
+- Understanding how images are processed is crucial for applications like OCR, facial recognition, and object detection.
+
